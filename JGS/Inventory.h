@@ -89,8 +89,8 @@ public:
             FortInventory->Inventory.ItemInstances.Add(ShowAmmoWorld);
             QuickBars->ServerAddItemInternal(ShowAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 3);
 
-           //auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsLight.AthenaAmmoDataBulletsLight")->CreateTemporaryItemInstanceBP(1, 0);
-            auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsLight.AthenaAmmoDataBulletsLight")->CreateTemporaryItemInstanceBP(1, 0);
+           //auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium")->CreateTemporaryItemInstanceBP(1, 0);
+            auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium")->CreateTemporaryItemInstanceBP(1, 0);
             auto ArAmmoWorld = reinterpret_cast<UFortWorldItem*>(ArAmmo);
             ArAmmoWorld->ItemEntry.Count = 250;
             ArAmmoWorld->ItemEntry.ReplicationKey++;
@@ -98,7 +98,7 @@ public:
             FortInventory->Inventory.ItemInstances.Add(ArAmmoWorld);
             QuickBars->ServerAddItemInternal(ArAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 4);
 
-          //auto ShowAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsLight.AthenaAmmoDataBulletsLight")->CreateTemporaryItemInstanceBP(1, 0);
+          //auto ShowAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium")->CreateTemporaryItemInstanceBP(1, 0);
             auto GiveWood = FindObjectFast<UFortItemDefinition>("/Game/Items/ResourcePickups/WoodItemData.WoodItemData")->CreateTemporaryItemInstanceBP(1, 0);
             auto GiveWorldWood = reinterpret_cast<UFortWorldItem*>(GiveWood);
             GiveWorldWood->ItemEntry.Count = 600;
