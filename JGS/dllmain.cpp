@@ -83,11 +83,12 @@ int InitImGui()
     {
         // Unreal style by dev0-1 from ImThemes
         ImGuiStyle& style = ImGui::GetStyle();
+        ImGui::GetIO().Fonts->AddFontFromFileTTF("JGSResources/Resources/BurbankBigCondensed-Bold.otf", 17);
         ImGui::GetBackgroundDrawList();
         style.Alpha = 1.0f;
         style.DisabledAlpha = 0.6000000238418579f;
         style.WindowPadding = ImVec2(8.0f, 8.0f);
-        style.WindowRounding = 20.25f;
+        style.WindowRounding = 0.5f;
         style.WindowBorderSize = 1.0f;
         style.WindowMinSize = ImVec2(32.0f, 32.0f);
         style.WindowTitleAlign = ImVec2(0.0f, 0.5f);
@@ -224,13 +225,6 @@ int InitImGui()
 
         ImGui::Spacing();
 
-        ImGui::Checkbox("LateGame?", &Globals::LateGame);
-
-        if (ImGui::Button("Start Match"))
-        {
-            Globals::PC->SwitchLevel(TEXT("Athena_Terrain"));
-        }
-
         if (ImGui::Button("Start Bus"))
         {
             ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"startaircraft", nullptr);
@@ -244,11 +238,6 @@ int InitImGui()
         if (ImGui::Button("Pause safezone"))
         {
             ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"pausesafezone", nullptr);
-        }
-
-        if (ImGui::Button("Restart Match"))
-        {
-            ((UGameplayStatics*)UGameplayStatics::StaticClass())->STATIC_OpenLevel(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, ((UKismetStringLibrary*)UKismetStringLibrary::StaticClass())->STATIC_Conv_StringToName(L"Athena_Terrain"), true, L"");
         }
 
         ImGui::Begin("TODM Bar");
@@ -272,13 +261,7 @@ int InitImGui()
 
         if (ImGui::Button("Set the time of day to Night"))
         {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 21:00", nullptr);
-        }
-
-
-        if (ImGui::Button("Set the time of day to Midnight"))
-        {
-            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 1:00", nullptr);
+            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"settimeofday 19:00", nullptr);
         }
 
         ImGui::Begin("Speed Commands");
@@ -290,11 +273,32 @@ int InitImGui()
         }
 
 
-        if (ImGui::Button("Demospeed Server by Default"))
+        if (ImGui::Button("Default Demospeed"))
         {
             ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"demospeed 1", nullptr);
         }
 
+        ImGui::Begin("Fun Stuff");
+        ImGui::Spacing();
+
+        if (ImGui::Button("FOV 120"))
+        {
+            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"fov 120", nullptr);
+        }
+
+        ImGui::Begin("Restarting Stuff");
+        ImGui::Spacing();
+
+        if (ImGui::Button("Restart"))
+        {
+            MH_DisableHook((LPVOID)(uintptr_t(GetModuleHandle(0)) + Offsets::SpawnPlayActor));
+            ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"open Athena_Terrain", nullptr);
+            auto nd = Beacons::GNetDriver;
+            Beacons::GNetDriver = nullptr;
+            reinterpret_cast<void(*)(UNetDriver*)>(Util::FindPattern("48 83 EC 68 48 89 5C 24 ? 48 89 7C 24"))(nd);
+            Hooks::bHasInitedTheBeacon = false;
+
+        }
 
         // Rendering
         ImGui::EndFrame();
@@ -449,7 +453,7 @@ DWORD WINAPI MainThread(LPVOID)
 
     Discord::UpdateStatus("Server is now loading map...");
 
-    //  Globals::PC->SwitchLevel(TEXT("Athena_Terrain"));
+    Globals::PC->SwitchLevel(TEXT("Athena_Terrain"));
 
     new std::thread(InitImGui);
 
@@ -460,9 +464,6 @@ DWORD WINAPI MainThread(LPVOID)
     Hooks::Init();
 
     LOG("Setup!");
-
-    auto NewConsolge = Globals::GPS->STATIC_SpawnObject(UFortConsole::StaticClass(), FortEngine->GameViewport);
-    FortEngine->GameViewport->ViewportConsole = (UFortConsole*)(NewConsolge);
 
     return 0;
 }

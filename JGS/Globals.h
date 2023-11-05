@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-static auto StaticLoadObjectInternal = reinterpret_cast<UObject* (*)(UClass* InClass, UObject* InOuter, const TCHAR* Name, const TCHAR* FileName, uint32_t LoadFlags, UPackageMap* Sandbox, bool bAllowObjectReconciliation)>(uintptr_t(GetModuleHandle(NULL)) + 0x13E0180);
+static auto StaticLoadObjectInternal = reinterpret_cast<UObject * (*)(UClass * InClass, UObject * InOuter, const TCHAR * Name, const TCHAR * FileName, uint32_t LoadFlags, UPackageMap * Sandbox, bool bAllowObjectReconciliation)>(uintptr_t(GetModuleHandle(NULL)) + 0x13E0180);
 
 template <typename T>
 static T* StaticLoadObject(const TCHAR* InPath)
@@ -23,8 +23,7 @@ static T* FindObjectFast(std::string ObjectName, UClass* ObjectClass = UObject::
 //#define DBNO_ENABLED
 //#define SAME_TEAM
 //#define LOG_RPCS
-#define DUOS
-#define SQUADS
+//#define DUOS
 
 struct CharPart
 {
@@ -35,16 +34,15 @@ struct CharPart
 
 namespace Globals
 {
-	UWorld* World;
-	UFortEngine* FortEngine;
-	AFortPlayerController* PC;
-	APlayerPawn_Generic_C* Pawn;
-	UGameplayStatics* GPS;
-	UKismetMathLibrary* MathLib;
+    UWorld* World;
+    UFortEngine* FortEngine;
+    AFortPlayerController* PC;
+    APlayerPawn_Generic_C* Pawn;
+    UGameplayStatics* GPS;
+    UKismetMathLibrary* MathLib;
     UKismetSystemLibrary* SystemLib;
     UCustomCharacterPart* HeadPart;
     UCustomCharacterPart* BodyPart;
-    bool LateGame = false;
     std::vector<UFortItemDefinition*> Traps;
     std::vector<UFortItemDefinition*> Consumables;
     std::vector<UFortItemDefinition*> SupplyDrop;
@@ -191,47 +189,47 @@ static void LoadCharacterParts()
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Heads/M_MED_ASN_Jae_Head_01_ATH.M_MED_ASN_Jae_Head_01_ATH"),
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Bodies/M_Med_Soldier_01_CV05_ATH.M_Med_Soldier_01_CV05_ATH"),
         nullptr
-    });
+        });
 
     //06
     Globals::CharacterParts.push_back({
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Heads/M_MED_HIS_Sparks_Head_01_ATH.M_MED_HIS_Sparks_Head_01_ATH"),
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Bodies/M_Med_Soldier_01_TV14_ATH.M_Med_Soldier_01_TV14_ATH"),
         nullptr
-    });
+        });
 
     //12
     Globals::CharacterParts.push_back({
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Heads/F_MED_BLK_Red_Head_01_ATH.F_MED_BLK_Red_Head_01_ATH"),
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Bodies/F_Med_Soldier_TV12_ATH.F_Med_Soldier_TV12_ATH"),
         nullptr
-    });
+        });
 
     //14
     Globals::CharacterParts.push_back({
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Heads/F_MED_CAU_Armstrong_Head_01_ATH.F_MED_CAU_Armstrong_Head_01_ATH"),
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Bodies/F_Med_Soldier_TV17_ATH.F_Med_Soldier_TV17_ATH"),
         nullptr
-    });
+        });
 
     //22
     Globals::CharacterParts.push_back({
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Heads/F_Med_Head1_ATH.F_Med_Head1_ATH"),
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Bodies/F_Med_Soldier_CV02_ATH.F_Med_Soldier_CV02_ATH"),
         FindObjectFast<UCustomCharacterPart>("/Game/Characters/CharacterParts/Hats/Ramirez_Glasses.Ramirez_Glasses")
-    });
+        });
 
     //25
     Globals::CharacterParts.push_back({
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Heads/F_MED_ASN_Sarah_Head_01_ATH.F_MED_ASN_Sarah_Head_01_ATH"),
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Bodies/F_Med_Soldier_CV04_ATH.F_Med_Soldier_CV04_ATH"),
         nullptr
-    });
+        });
 
     //26
     Globals::CharacterParts.push_back({
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Heads/M_Med_Soldier_Head_01_ATH.M_Med_Soldier_Head_01_ATH"),
         FindObjectFast<UCustomCharacterPart>("/Game/Athena/Heroes/Meshes/Bodies/M_Med_Soldier_01_Base_ATH.M_Med_Soldier_01_Base_ATH"),
         nullptr
-    });
+        });
 }

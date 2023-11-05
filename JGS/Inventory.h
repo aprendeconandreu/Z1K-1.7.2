@@ -62,59 +62,6 @@ public:
         FortInventory->Inventory.ReplicatedEntries.Add(RoofWorldBuildItem->ItemEntry);
         FortInventory->Inventory.ItemInstances.Add(RoofWorldBuildItem);
         QuickBars->ServerAddItemInternal(RoofWorldBuildItem->GetItemGuid(), EFortQuickBars::Secondary, 3);
-
-        if (Globals::LateGame)
-        {
-            auto ShotItem = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Weapons/WID_Shotgun_SemiAuto_Athena_R_Ore_T03.WID_Shotgun_SemiAuto_Athena_R_Ore_T03")->CreateTemporaryItemInstanceBP(1, 0);
-            auto ShotWorldItem = reinterpret_cast<UFortWorldItem*>(ShotItem);
-            ShotWorldItem->ItemEntry.LoadedAmmo = 8;
-            ShotWorldItem->ItemEntry.ReplicationKey++;
-            FortInventory->Inventory.ReplicatedEntries.Add(ShotWorldItem->ItemEntry);
-            FortInventory->Inventory.ItemInstances.Add(ShotWorldItem);
-            QuickBars->ServerAddItemInternal(ShotWorldItem->GetItemGuid(), EFortQuickBars::Primary, 1);
-
-            auto ArItem = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Weapons/WID_Assault_Auto_Athena_R_Ore_T03.WID_Assault_Auto_Athena_R_Ore_T03")->CreateTemporaryItemInstanceBP(1, 0);
-            auto ArWorldItem = reinterpret_cast<UFortWorldItem*>(ArItem);
-            ArWorldItem->ItemEntry.LoadedAmmo = 30;
-            ArWorldItem->ItemEntry.ReplicationKey++;
-            FortInventory->Inventory.ReplicatedEntries.Add(ArWorldItem->ItemEntry);
-            FortInventory->Inventory.ItemInstances.Add(ArWorldItem);
-            QuickBars->ServerAddItemInternal(ArWorldItem->GetItemGuid(), EFortQuickBars::Primary, 2);
-
-            auto ShowAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataShells.AthenaAmmoDataShells")->CreateTemporaryItemInstanceBP(1, 0);
-            auto ShowAmmoWorld = reinterpret_cast<UFortWorldItem*>(ShowAmmo);
-            ShowAmmoWorld->ItemEntry.Count = 10;
-            ShowAmmoWorld->ItemEntry.ReplicationKey++;
-            FortInventory->Inventory.ReplicatedEntries.Add(ShowAmmoWorld->ItemEntry);
-            FortInventory->Inventory.ItemInstances.Add(ShowAmmoWorld);
-            QuickBars->ServerAddItemInternal(ShowAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 3);
-
-           //auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium")->CreateTemporaryItemInstanceBP(1, 0);
-            auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Traps/TID_Ceiling_Electric_Single_Athena_R_T03.TID_Ceiling_Electric_Single_Athena_R_T03")->CreateTemporaryItemInstanceBP(1, 0);
-            auto ArAmmoWorld = reinterpret_cast<UFortWorldItem*>(ArAmmo);
-            ArAmmoWorld->ItemEntry.Count = 100;
-            ArAmmoWorld->ItemEntry.ReplicationKey++;
-            FortInventory->Inventory.ReplicatedEntries.Add(ArAmmoWorld->ItemEntry);
-            FortInventory->Inventory.ItemInstances.Add(ArAmmoWorld);
-            QuickBars->ServerAddItemInternal(ArAmmoWorld->GetItemGuid(), EFortQuickBars::Secondary, 4);
-
-         // auto ArAmmo = FindObjectFast<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium")->CreateTemporaryItemInstanceBP(1, 0);
-            auto GiveWood = FindObjectFast<UFortItemDefinition>("/Game/Items/ResourcePickups/WoodItemData.WoodItemData")->CreateTemporaryItemInstanceBP(1, 0);
-            auto GiveWorldWood = reinterpret_cast<UFortWorldItem*>(GiveWood);
-            GiveWorldWood->ItemEntry.Count = 500;
-            GiveWorldWood->ItemEntry.ReplicationKey++;
-            FortInventory->Inventory.ReplicatedEntries.Add(GiveWorldWood->ItemEntry);
-            FortInventory->Inventory.ItemInstances.Add(GiveWorldWood);
-            QuickBars->ServerAddItemInternal(GiveWorldWood->GetItemGuid(), EFortQuickBars::Secondary, 5);
-           
-            auto GiveStone = FindObjectFast<UFortItemDefinition>("/Game/Items/ResourcePickups/StoneItemData.StoneItemData")->CreateTemporaryItemInstanceBP(1, 0);
-            auto GiveWorldStone = reinterpret_cast<UFortWorldItem*>(GiveStone);
-            GiveWorldStone->ItemEntry.Count = 500;
-            GiveWorldStone->ItemEntry.ReplicationKey++;
-            FortInventory->Inventory.ReplicatedEntries.Add(GiveWorldStone->ItemEntry);
-            FortInventory->Inventory.ItemInstances.Add(GiveWorldStone);
-            QuickBars->ServerAddItemInternal(GiveWorldStone->GetItemGuid(), EFortQuickBars::Secondary, 5);
-        }
     }
 
     void SetupInventory()
@@ -128,7 +75,7 @@ public:
 
         auto FortInventory = PC->WorldInventory;
         auto QuickBars = PC->QuickBars;
-        
+
         QuickBars->EnableSlot(EFortQuickBars::Primary, 0);
         QuickBars->EnableSlot(EFortQuickBars::Primary, 1);
         QuickBars->EnableSlot(EFortQuickBars::Primary, 2);
@@ -159,10 +106,10 @@ public:
         ItemsToAddMap.clear();
 
         PC->bHasInitializedWorldInventory = true;
-	}
+    }
 
-	void UpdateInventory()
-	{
+    void UpdateInventory()
+    {
         PC->HandleWorldInventoryLocalUpdate();
 
         PC->WorldInventory->HandleInventoryLocalUpdate();
@@ -173,7 +120,7 @@ public:
         PC->WorldInventory->ForceNetUpdate();
 
         PC->WorldInventory->Inventory.MarkArrayDirty();
-	}
+    }
 
     void SpawnAllLootInInventory()
     {
@@ -197,7 +144,7 @@ public:
                     auto NewFortPickup = (AFortPickupAthena*)(Util::SpawnActor(AFortPickupAthena::StaticClass(), PC->Pawn->K2_GetActorLocation(), {}));
                     NewFortPickup->PrimaryPickupItemEntry = ItemInstance->ItemEntry;
                     NewFortPickup->OnRep_PrimaryPickupItemEntry();
-                    NewFortPickup->TossPickup(PC->Pawn->K2_GetActorLocation(), nullptr, 5);
+                    NewFortPickup->TossPickup(PC->Pawn->K2_GetActorLocation(), nullptr, 999);
                 }
             }
 
@@ -207,6 +154,7 @@ public:
             }
         }
     }
+
     void ExecuteInventoryItem(FGuid InGuid)
     {
         if (PC)
@@ -229,7 +177,7 @@ public:
                             ((AFortPlayerPawn*)PC->Pawn)->PickUpActor(nullptr, (UFortDecoItemDefinition*)ItemInstance->GetItemDefinitionBP());
                         }
                     }
-                };
+                }
             }
         }
     }
