@@ -119,10 +119,10 @@ namespace Hooks
 
 			Indicator->NextCenter = (FVector_NetQuantize100)FVector{ 86766, -83071, 25000 };
 			Indicator->LastCenter = (FVector_NetQuantize100)FVector{ 86766, -83071, 25000 };
-			Indicator->Radius = 7500;
-			Indicator->NextRadius = 7500;
+			Indicator->Radius = 10000;
+			Indicator->NextRadius = 10000;
 			Indicator->LastRadius = 7500;
-			Indicator->SafeZoneFinishShrinkTime =1000000;
+			Indicator->SafeZoneFinishShrinkTime =1000;
 
 			((AFortGameModeAthena*)Globals::World->AuthorityGameMode)->SafeZonePhase = 2;
 		}

@@ -225,6 +225,7 @@ int InitImGui()
         ImGui::Spacing();
 
         ImGui::Checkbox("LateGame?", &Globals::LateGame);
+        ImGui::Checkbox("teams (testing)?", &Globals::teams);
 
         if (ImGui::Button("Start Match"))
         {

@@ -6,7 +6,7 @@
 namespace Beacons
 {
 	bool bSetupCharPartArray = false;
-	bool bSetupFloorLoot = false;
+	bool bSetupFloorLoot = true;
 	bool bMadeEverythingSearched = false;
 
 	bool (*InitHost)(AOnlineBeaconHost*);
