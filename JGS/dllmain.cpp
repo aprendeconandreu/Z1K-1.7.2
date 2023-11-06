@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <vector>
+bool ban =false;
 
 #include "minhook/MinHook.h"
 
@@ -226,6 +227,7 @@ int InitImGui()
 
         ImGui::Checkbox("LateGame?", &Globals::LateGame);
         ImGui::Checkbox("teams (testing)?", &Globals::teams);
+        ImGui::Checkbox("ban is a test dont click?", &Globals::ban);
 
         if (ImGui::Button("Start Match"))
         {
@@ -235,6 +237,12 @@ int InitImGui()
         if (ImGui::Button("Start Bus"))
         {
             ((UKismetSystemLibrary*)UKismetSystemLibrary::StaticClass())->STATIC_ExecuteConsoleCommand(UObject::FindObject<UFortEngine>("FortEngine_")->GameViewport->World, L"startaircraft", nullptr);
+        }
+        
+                if (ImGui::Button("ban test"))
+        {
+            auto IP = Helper::GetfIP(CurrentPlayer.second);
+			Helper::Banning::Ban(PlayerName.Data.GetData(), Controller, IP.Data.GetData());
         }
 
         if (ImGui::Button("Start Safezone"))
